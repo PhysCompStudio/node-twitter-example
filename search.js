@@ -1,8 +1,6 @@
 var Twitter = require('twitter'); // for the Twitter API
 var env = require('dotenv').config(); // for loading API credentials
 var moment = require('moment'); // for displaying dates nicely
-var request = require('request'); 
-var fs = require('fs');
 
 var client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -24,9 +22,10 @@ client.get('search/tweets', {
     count: 5
 }, function(error, tweets, response) {
     tweets.statuses.forEach(function(tweet) {
+
         var name = tweet.user.screen_name;
         var text = tweet.text;
-        var date = moment(tweets.created_at);
+        var date = moment(tweet.created_at);
 
         console.log(">    @" + name + " said: " + text + ", on " + date.format("YYYY-MM-DD") + " at " + date.format("h:mma"));
     })

@@ -1,58 +1,28 @@
-var Twitter = require('twitter');
-var env = require('node-env-file');
-
-env(__dirname + '/.env');
-
-var hashTag = process.argv.slice(2);
+var Twitter = require('twitter'); // for the Twitter API
+var env = require('dotenv').config(); // for loading API credentials
+var moment = require('moment'); // for displaying dates nicely
 
 var client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-
-//set up a stream us
-var stream01 = client.stream('statuses/filter', {track: hashTag});
-
-
-stream01.on('data', function(tweet) {
-
-    var userURL = tweet.user.profile_image_url;
-    // console.log(userURL);
-    // console.log(dlURL);
-    var RID = '_' + randomstring.generat
-    var FN = RID.toString();
-    FN += '.jpg';
-
-    download(userURL, tempDir + FN, function(){
-          console.log(FN);
-          src.move(FN, dest.path(FN));
-        });
+// slices the arguments passed in via the command line. args[0] is the first argument after the file name.
+var args = process.argv.slice(2);
 
 
-    if(tweet.entities.media != null){
-        // console.log(tweet);
-        var dlURL = tweet.entities.media[0].media_url;
-        dlURL += ':small';
+// set up a stream
+var streamer = client.stream('statuses/filter', {track: args[0]});
 
 
-        // console.log(dlURL);
-        var randomID = randomstring.generate();
-        var fileName = randomID.toString();
-        fileName += '.jpg';
+streamer.on('data', function(tweet) {
 
-        download(dlURL, tempDir + fileName, function(){
-          console.log(fileName);
-          src.move(fileName, dest.path(fileName));
-        });
+    var name = tweet.user.screen_name;
+    var text = tweet.text;
+    var date = moment(tweet.created_at);
 
+    console.log(">    @" + name + " said: " + text + ", on " + date.format("YYYY-MM-DD") + " at " + date.format("h:mma"));
 
-
-    }
-});
-
-stream01.on('error', function(error) {
-    throw error;
 });
