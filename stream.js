@@ -1,17 +1,7 @@
 var Twitter = require('twitter');
 var env = require('node-env-file');
-var request = require('request');
-var fs = require('fs');
-var jetPack = require('fs-jetpack');
-var randomstring = require("randomstring");
 
 env(__dirname + '/.env');
-
-var tempDir = '../bin/data/temp/';
-var dir = '../bin/data/images/';
-
-var src = jetPack.cwd('../bin/data/temp/');
-var dest = jetPack.cwd('../bin/data/images/');
 
 var hashTag = process.argv.slice(2);
 
@@ -22,17 +12,11 @@ var client = new Twitter({
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-var download = function(uri, filename, callback){
-  request.head(uri, function(err, res, body){
-    // console.log('content-type:', res.headers['content-type']);
-    // console.log('content-length:', res.headers['content-length']);
 
-    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-  });
-};
+//set up a stream us
+var stream01 = client.stream('statuses/filter', {track: hashTag});
 
 
-var stream01 = client.stream('statuses/filter', {track: '#mti'});
 stream01.on('data', function(tweet) {
 
     var userURL = tweet.user.profile_image_url;
