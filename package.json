@@ -1,0 +1,19 @@
+{
+  "name": "node-twitter-example",
+  "version": "1.0.0",
+  "description": "node app for learning API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Making-Things-Interactive/node-twitter-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Making-Things-Interactive/node-twitter-example/issues"
+  },
+  "homepage": "https://github.com/Making-Things-Interactive/node-twitter-example#readme"
+}
