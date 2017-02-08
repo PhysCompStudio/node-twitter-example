@@ -12,21 +12,18 @@ var client = new Twitter({
 // slices the arguments passed in via the command line. args[0] is the first argument after the file name.
 var args = process.argv.slice(2);
 
-
-console.log("Hello!");
-console.log("Staring search for: " + args[0] + "...");
-
 client.get('search/tweets', {
     q: args[0],
     lang: "en",
     count: 5
 }, function(error, tweets, response) {
+
     tweets.statuses.forEach(function(tweet) {
 
         var name = tweet.user.screen_name;
         var text = tweet.text;
-        var date = moment(tweet.created_at);
+        var date = moment(tweet.created_at, "ddd MMM DD HH:mm:ss Z YYYY");
 
-        console.log(">    @" + name + " said: " + text + ", on " + date.format("YYYY-MM-DD") + " at " + date.format("h:mma"));
+        console.log("@" + name + " said: " + text + ", on " + date.format("YYYY-MM-DD") + " at " + date.format("h:mma"));
     })
 });

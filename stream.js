@@ -21,7 +21,7 @@ streamer.on('data', function(tweet) {
 
     var name = tweet.user.screen_name;
     var text = tweet.text;
-    var date = moment(tweet.created_at);
+    var date = moment(tweet.created_at, "ddd MMM DD HH:mm:ss Z YYYY");
 
     console.log(">    @" + name + " said: " + text + ", on " + date.format("YYYY-MM-DD") + " at " + date.format("h:mma"));
 
